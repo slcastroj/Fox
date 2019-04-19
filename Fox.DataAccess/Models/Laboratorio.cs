@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Fox.Models
+namespace Fox.DataAccess.Models
 {
-    public partial class TipoProducto
+    public partial class Laboratorio
     {
-        public TipoProducto()
+        public Laboratorio()
         {
             Producto = new HashSet<Producto>();
         }

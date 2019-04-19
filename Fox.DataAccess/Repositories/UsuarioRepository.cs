@@ -1,0 +1,133 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
+using Fox.DataAccess.Models;
+using Fox.DataAccess.Utils;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+
+namespace Fox.DataAccess.Repositories
+{
+	public interface IUsuarioRepository
+	{
+		Task<AccessResult<BearerUser>> Authenticate(String user, String password);
+		Task<AccessResult<IEnumerable<Usuario>>> GetAll();
+		Task<AccessResult<Usuario>> Get(String rut);
+		Task<AccessResult<Usuario>> Post(Usuario user);
+		Task<AccessResult<Usuario>> Patch(String rut, String password, String email, String fechaNacimiento);
+		Task<AccessResult<Usuario>> Put(String rut, Usuario user);
+		Task<AccessResult<Usuario>> Delete(String rut);
+	}
+
+	public class UsuarioRepository : IUsuarioRepository
+	{
+		private AppSettings Settings { get; }
+		private DeadlockContext Context { get; }
+		private DbSet<Usuario> Users => Context.Usuario;
+		public const UInt32 ExpirationSpan = 86400;
+
+		public UsuarioRepository(IOptions<AppSettings> settings, DeadlockContext ctx)
+		{
+			Settings = settings.Value;
+			Context = ctx;
+		}
+
+		public async Task<AccessResult<BearerUser>> Authenticate(String rut, String pwd)
+		{
+			Usuario user = await Get(rut);
+
+			if(user == null) { return new AccessFault("Usuario no existente"); }
+			if(user.Password != Hashing.ComputeSha256(pwd)) { return new AccessFault("Credenciales inválidas"); }
+
+			BearerUser token = Token.GetFor(Settings.Secret, user, ExpirationSpan);
+			if(token == null) { return new AccessFault("No se pudo crear token de acceso"); }
+
+			return token;
+		}
+
+		public async Task<AccessResult<IEnumerable<Usuario>>> GetAll()
+		{
+			return await Users.ToListAsync();
+		}
+
+		public async Task<AccessResult<Usuario>> Get(String rut)
+		{
+			try
+			{
+				return await Users.FindAsync(rut);
+			}
+			catch { return new AccessFault("No se pudo obtener la información de usuario"); }
+		}
+
+		public async Task<AccessResult<Usuario>> Post(Usuario user)
+		{
+			try
+			{
+				if((await Get(user.Rut)).Result != null) { return new AccessFault("Usuario ya existente"); }
+
+				if(!Validation.CheckUsuario(user)) { return new AccessFault("Datos de usuario inválidos"); }
+
+				await Context.Usuario.AddAsync(user);
+				await Context.SaveChangesAsync();
+
+				return user;
+			}
+			catch(Exception e)
+			{
+				return new AccessFault("No se pudo publicar la información de usuario");
+			}
+		}
+
+		public async Task<AccessResult<Usuario>> Patch(String rut, String password, String email, String fechaNacimiento)
+		{
+			try
+			{
+				Usuario user = await Get(rut);
+				if(user == null) { return new AccessFault("Usuario no existente"); }
+
+				if(password != null) { user.Password = password; }
+				if(email != null) { user.Email = email; }
+				if(fechaNacimiento != null) { user.FechaNacimiento = fechaNacimiento; }
+
+				if(!Validation.CheckUsuario(user)) { return new AccessFault("Datos de usuario inválidos"); }
+
+				await Context.SaveChangesAsync();
+
+				return user;
+			}
+			catch { return new AccessFault("No se pudo actualizar la información de usuario"); }
+		}
+
+		public async Task<AccessResult<Usuario>> Put(String rut, Usuario user)
+		{
+			try
+			{
+				if(!Validation.CheckUsuario(user)) { return new AccessFault("Datos de usuario inválidos"); }
+
+				Context.Entry(user).State = EntityState.Modified;
+				await Context.SaveChangesAsync();
+				return user;
+			}
+			catch { return new AccessFault("No se pudo actualizar la información de usuario"); }
+		}
+
+		public async Task<AccessResult<Usuario>> Delete(String rut)
+		{
+			try
+			{
+				Usuario user = await Get(rut);
+				if(user == null) { return new AccessFault("Usuario no existente"); }
+
+				Users.Remove(user);
+				await Context.SaveChangesAsync();
+				return user;
+			}
+			catch { return new AccessFault("No se pudo eliminar la información de usuario"); }
+		}
+	}
+}

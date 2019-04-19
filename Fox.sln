@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2018
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.202
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fox", "Fox\Fox.csproj", "{B61E89BD-4500-4319-9392-3D4323F0077A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fox.WebService", "Fox\Fox.WebService.csproj", "{B61E89BD-4500-4319-9392-3D4323F0077A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fox.DataAccess", "Fox.DataAccess\Fox.DataAccess.csproj", "{0D53D7EE-DCCF-4731-A623-AEF47F51652D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{B61E89BD-4500-4319-9392-3D4323F0077A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B61E89BD-4500-4319-9392-3D4323F0077A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B61E89BD-4500-4319-9392-3D4323F0077A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D53D7EE-DCCF-4731-A623-AEF47F51652D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D53D7EE-DCCF-4731-A623-AEF47F51652D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D53D7EE-DCCF-4731-A623-AEF47F51652D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D53D7EE-DCCF-4731-A623-AEF47F51652D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
