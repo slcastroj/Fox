@@ -5,11 +5,13 @@ using System.Text;
 
 namespace Fox.DataAccess.Utils
 {
-	public class ValidateRutAttribute : ValidationAttribute
+	public class RutAttribute : ValidationAttribute
 	{
 		protected override ValidationResult IsValid(Object value, ValidationContext ctx)
 		{
 			var rut = (String)value;
+
+			if(String.IsNullOrEmpty(rut)) { return ValidationResult.Success; }
 			if(!CheckVerificationDigit(rut)) { return new ValidationResult(ErrorMessage); }
 
 			return ValidationResult.Success;

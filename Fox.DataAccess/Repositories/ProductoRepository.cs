@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Fox.DataAccess.Models;
@@ -36,13 +37,17 @@ namespace Fox.DataAccess.Repositories
 			{
 				return await Products.FindAsync(id);
 			}
-			catch { return new AccessFault("No se pudo obtener la información de usuario"); }
+			catch { return new AccessFault("No se pudo obtener la información de producto"); }
 		}
 
 		public async Task<AccessResult<Producto>> Post(Producto item)
 		{
 			try
 			{
+				IEnumerable<Producto> products = (await GetAll()).Result;
+				var lastIndex = products.Count() > 0 ? products.Max(x => x.Id) : 0;
+				item.Id = lastIndex + 1;
+
 				if((await Get(item.Id)).Result != null) { return new AccessFault("Producto ya existente"); }
 
 				AccessResult<Producto> result = await EnsureIntegrity(item);
@@ -63,7 +68,17 @@ namespace Fox.DataAccess.Repositories
 				AccessResult<Producto> result = await EnsureIntegrity(item);
 				if(!result.IsValid) { return result.Fault; }
 
-				Context.Entry(item).State = EntityState.Modified;
+				Producto apt = await Products.FindAsync(item.Id);
+				apt.Nombre = item.Nombre;
+				apt.Descripcion = item.Descripcion;
+				apt.NecesitaReceta = item.NecesitaReceta;
+				apt.MaximoSemanal = item.MaximoSemanal;
+				apt.Laboratorio = item.Laboratorio;
+				apt.PesoGr = item.PesoGr;
+				apt.PrecioUnidad = item.PrecioUnidad;
+				apt.Stock = item.Stock;
+				apt.Tipo = item.Tipo;
+
 				await Context.SaveChangesAsync();
 				return item;
 			}

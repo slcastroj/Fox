@@ -11,7 +11,7 @@ namespace Fox.WebService.Models.Transfer.Input.Usuario
 	public class Autenticacion
 	{
 		[Required(ErrorMessage = "Se requiere campo RUT")]
-		[ValidateRut(ErrorMessage = "Dígito verificador inválido")]
+		[Rut(ErrorMessage = "Dígito verificador inválido")]
 		[RegularExpression(Matches.Rut, ErrorMessage = "RUT con formato inválido")]
 		public String Rut { get; set; }
 
@@ -32,7 +32,7 @@ namespace Fox.WebService.Models.Transfer.Input.Usuario
 	public class Post
 	{
 		[Required(ErrorMessage = "Se requiere campo RUT")]
-		[ValidateRut(ErrorMessage = "Dígito verificador inválido")]
+		[Rut(ErrorMessage = "Dígito verificador inválido")]
 		[RegularExpression(Matches.Rut, ErrorMessage = "RUT con formato inválido")]
 		public String Rut { get; set; }
 
