@@ -39,15 +39,19 @@ namespace Fox.DataAccess.Repositories
 
 		public async Task<AccessResult<BearerUser>> Authenticate(String rut, String pwd)
 		{
-			Usuario user = await Get(rut);
+			try
+			{
+				Usuario user = await Get(rut);
 
-			if(user == null) { return new AccessFault("Usuario no existente"); }
-			if(user.Password != Hashing.ComputeSha256(pwd)) { return new AccessFault("Credenciales inválidas"); }
+				if(user == null) { return new AccessFault("Usuario no existente"); }
+				if(user.Password != Hashing.ComputeSha256(pwd)) { return new AccessFault("Credenciales inválidas"); }
 
-			BearerUser token = Token.GetFor(Settings.Secret, user, ExpirationSpan);
-			if(token == null) { return new AccessFault("No se pudo crear token de acceso"); }
+				BearerUser token = Token.GetFor(Settings.Secret, user, ExpirationSpan);
+				if(token == null) { return new AccessFault("No se pudo crear token de acceso"); }
 
-			return token;
+				return token;
+			}
+			catch { return new AccessFault("No se pudo autenticar al usuario"); }
 		}
 
 		public async Task<AccessResult<IEnumerable<Usuario>>> GetAll()
@@ -70,17 +74,14 @@ namespace Fox.DataAccess.Repositories
 			{
 				if((await Get(user.Rut)).Result != null) { return new AccessFault("Usuario ya existente"); }
 
-				if(!Validation.CheckUsuario(user)) { return new AccessFault("Datos de usuario inválidos"); }
+				EnsureIntegrity(user);
 
 				await Context.Usuario.AddAsync(user);
 				await Context.SaveChangesAsync();
 
 				return user;
 			}
-			catch(Exception e)
-			{
-				return new AccessFault("No se pudo publicar la información de usuario");
-			}
+			catch { return new AccessFault("No se pudo publicar la información de usuario"); }
 		}
 
 		public async Task<AccessResult<Usuario>> Patch(String rut, String password, String email, String fechaNacimiento)
@@ -94,7 +95,7 @@ namespace Fox.DataAccess.Repositories
 				if(email != null) { user.Email = email; }
 				if(fechaNacimiento != null) { user.FechaNacimiento = fechaNacimiento; }
 
-				if(!Validation.CheckUsuario(user)) { return new AccessFault("Datos de usuario inválidos"); }
+				EnsureIntegrity(user);
 
 				await Context.SaveChangesAsync();
 
@@ -107,7 +108,7 @@ namespace Fox.DataAccess.Repositories
 		{
 			try
 			{
-				if(!Validation.CheckUsuario(user)) { return new AccessFault("Datos de usuario inválidos"); }
+				EnsureIntegrity(user);
 
 				Context.Entry(user).State = EntityState.Modified;
 				await Context.SaveChangesAsync();
@@ -128,6 +129,15 @@ namespace Fox.DataAccess.Repositories
 				return user;
 			}
 			catch { return new AccessFault("No se pudo eliminar la información de usuario"); }
+		}
+
+		private static void EnsureIntegrity(Usuario user)
+		{
+			user.Rut = user.Rut.ToLower();
+			user.Email = user.Email.ToLower();
+			user.Roles = user.Roles ?? "Usuario";
+			user.Password = Hashing.ComputeSha256(user.Password);
+			user.FechaNacimiento = DateTime.Parse(user.FechaNacimiento).ToString("yyyy-MM-dd");
 		}
 	}
 }

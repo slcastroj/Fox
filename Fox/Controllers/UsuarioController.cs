@@ -14,6 +14,7 @@ using Input = Fox.Models.Transfer.Input;
 namespace Fox.Controllers
 {
 	[Produces("application/json")]
+	[ApiController]
 	[Route("api/v1/usuario")]
 	public class UsuarioController : Controller
 	{
