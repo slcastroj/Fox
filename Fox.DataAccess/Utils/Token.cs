@@ -17,7 +17,7 @@ namespace Fox.DataAccess.Utils
 			{
 				var tokenHandle = new JwtSecurityTokenHandler();
 				var key = Encoding.ASCII.GetBytes(secret);
-				var date = DateTime.UtcNow;
+				DateTime date = DateTime.UtcNow;
 
 				var tokenDesc = new SecurityTokenDescriptor
 				{

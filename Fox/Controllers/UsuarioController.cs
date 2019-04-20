@@ -9,14 +9,14 @@ using Fox.DataAccess.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-using Input = Fox.Models.Transfer.Input;
+using Input = Fox.WebService.Models.Transfer.Input;
 
 namespace Fox.Controllers
 {
-	[Produces("application/json")]
 	[ApiController]
 	[Route("api/v1/usuario")]
-	public class UsuarioController : Controller
+	[Produces("application/json")]
+	public class UsuarioController : ControllerBase
 	{
 		private IUsuarioRepository Usuarios { get; }
 
@@ -178,7 +178,7 @@ namespace Fox.Controllers
 		{
 			try
 			{
-				AccessResult<Usuario> result = await Usuarios.Put(rut, new Usuario
+				AccessResult<Usuario> result = await Usuarios.Put(new Usuario
 				{
 					Rut = rut,
 					Email = data.Email,

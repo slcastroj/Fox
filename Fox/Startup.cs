@@ -57,6 +57,7 @@ namespace Fox
 
 			services.AddDbContext<DeadlockContext>();
 			services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+			services.AddScoped<IProductoRepository, ProductoRepository>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
