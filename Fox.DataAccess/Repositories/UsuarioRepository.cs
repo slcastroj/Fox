@@ -105,7 +105,12 @@ namespace Fox.DataAccess.Repositories
 			{
 				EnsureIntegrity(user);
 
-				Context.Entry(user).State = EntityState.Modified;
+				Usuario apt = await Users.FindAsync(user.Rut);
+				apt.Email = user.Email;
+				apt.FechaNacimiento = user.FechaNacimiento;
+				apt.Password = user.Password;
+				apt.Roles = user.Roles;
+
 				await Context.SaveChangesAsync();
 				return user;
 			}

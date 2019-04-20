@@ -70,11 +70,8 @@ namespace Fox.WebService.Controllers
 			Producto item;
 			try
 			{
-				IEnumerable<Producto> products = (await Productos.GetAll()).Result;
-				var lastIndex = products.Count() > 0 ? products.Last().Id + 1 : 0;
 				item = new Producto
 				{
-					Id = lastIndex,
 					Nombre = data.Nombre,
 					Descripcion = data.Descripcion,
 					MaximoSemanal = data.MaximoSemanal,
@@ -145,7 +142,10 @@ namespace Fox.WebService.Controllers
 		{
 			try
 			{
-				AccessResult<Producto> result = await Productos.Put(new Producto
+				AccessResult<Producto> result = await Productos.Get(id);
+				if(!result.IsValid && result.Result == null) { return NotFound(); }
+
+				result = await Productos.Put(new Producto
 				{
 					Id = id,
 					Nombre = data.Nombre,
@@ -184,7 +184,10 @@ namespace Fox.WebService.Controllers
 		{
 			try
 			{
-				AccessResult<Producto> result = await Productos.Delete(id);
+				AccessResult<Producto> result = await Productos.Get(id);
+				if(!result.IsValid && result.Result == null) { return NotFound(); }
+
+				result = await Productos.Delete(id);
 				if(!result.IsValid) { return BadRequest(result.Fault); }
 
 				Producto item = result.Result;

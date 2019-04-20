@@ -6,6 +6,7 @@ using Fox.DataAccess.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -58,6 +59,7 @@ namespace Fox
 			services.AddDbContext<DeadlockContext>();
 			services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 			services.AddScoped<IProductoRepository, ProductoRepository>();
+			services.AddScoped<IOrdenCompraRepository, OrdenCompraRepository>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
