@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using Fox.DataAccess.Models;
 using Fox.DataAccess.Utils;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Fox.DataAccess.Repositories
 {
@@ -20,7 +15,7 @@ namespace Fox.DataAccess.Repositories
 		Task<AccessResult<Usuario>> Get(String rut);
 		Task<AccessResult<Usuario>> Post(Usuario user);
 		Task<AccessResult<Usuario>> Patch(String rut, String password, String email, String fechaNacimiento);
-		Task<AccessResult<Usuario>> Put(String rut, Usuario user);
+		Task<AccessResult<Usuario>> Put(Usuario user);
 		Task<AccessResult<Usuario>> Delete(String rut);
 	}
 
@@ -104,7 +99,7 @@ namespace Fox.DataAccess.Repositories
 			catch { return new AccessFault("No se pudo actualizar la información de usuario"); }
 		}
 
-		public async Task<AccessResult<Usuario>> Put(String rut, Usuario user)
+		public async Task<AccessResult<Usuario>> Put(Usuario user)
 		{
 			try
 			{
@@ -131,13 +126,15 @@ namespace Fox.DataAccess.Repositories
 			catch { return new AccessFault("No se pudo eliminar la información de usuario"); }
 		}
 
-		private static void EnsureIntegrity(Usuario user)
+		private AccessResult<Usuario> EnsureIntegrity(Usuario user)
 		{
 			user.Rut = user.Rut.ToLower();
 			user.Email = user.Email.ToLower();
 			user.Roles = user.Roles ?? "Usuario";
 			user.Password = Hashing.ComputeSha256(user.Password);
 			user.FechaNacimiento = DateTime.Parse(user.FechaNacimiento).ToString("yyyy-MM-dd");
+
+			return user;
 		}
 	}
 }
