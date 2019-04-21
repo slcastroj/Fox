@@ -4,5 +4,7 @@ solution: Fox.sln
 mono: none
 dotnet: 2.2.202
 
+dist: xenial
+
 script:
  - dotnet restore
