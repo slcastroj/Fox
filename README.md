@@ -4,4 +4,4 @@ El propósito de este servicio es proporcionar acceso a los datos de una base de 
 
 Los puntos de acceso a la API se definen en *docs/access-points-api*.
 
-[![Build status](https://ci.appveyor.com/api/projects/status/7030srq6t1wmwoy1/branch/master?svg=true)](https://ci.appveyor.com/project/slcastroj/fox/branch/master)
+[![Build status](https://ci.appveyor.com/api/projects/status/2slvvru9ls6ksbup/branch/master?svg=true)](https://ci.appveyor.com/project/slcastroj/fox/branch/master)

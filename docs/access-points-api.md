@@ -5,7 +5,6 @@
 **Autor:** Sergio Castro
 **Fecha mod.:** 2019.04.21
 
----
 ### Puntos de acceso
 ---
 
@@ -15,7 +14,6 @@ Para cada punto de acceso de la API se describirán sus funciones REST (si aplica
 
 Para las respuestas se utilizarán solamente los códigos 200 (OK) si la solicitud fue exitosa, 400 (Bad Request) si hubo un problema al recibir o procesar los datos o 403 (Forbidden) si no se pudo verificar los permisos del solicitante.
 
----
 ### Autenticación y autorización
 ---
 
@@ -27,7 +25,6 @@ Para la autorización se debe adjuntar (cuando corresponda) el token a la solicit
 
 Todas las solicitudes necesitan autorización a menos que se especifique lo contrario. La autorización es válida para todos los roles a menos que se especifique.
 
----
 ### API
 ---
 
