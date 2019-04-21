@@ -1,6 +1,7 @@
 language: csharp
 solution: Fox.sln
 
+mono: none
 dotnet: 2.2.202
 
 script:
