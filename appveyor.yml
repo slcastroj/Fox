@@ -1,0 +1,17 @@
+version: '1.0.{build}'
+image: Visual Studio 2017
+branches:
+    only:
+    - attribute-validation
+
+init:
+    - cmd: git config --global.core.autocrlf true
+
+before_build:
+    - cmd: dotnet --version
+    - cmd: dotnet restore Fox.sln --verbosity m
+
+build_script:
+    - cmd: dotnet publish Fox.sln
+
+deploy: off
