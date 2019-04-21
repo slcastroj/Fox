@@ -8,7 +8,7 @@ using Fox.DataAccess.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-using Input = Fox.WebService.Models.Transfer.Input;
+using Transfer = Fox.WebService.Models.Transfer;
 
 namespace Fox.WebService.Controllers
 {
@@ -25,7 +25,7 @@ namespace Fox.WebService.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> Get([FromBody]Input.Producto.Get data)
+		public async Task<IActionResult> Get([FromBody]Transfer.Producto.Get data)
 		{
 			try
 			{
@@ -65,7 +65,7 @@ namespace Fox.WebService.Controllers
 
 		[Authorize(Roles = "Administrador")]
 		[HttpPost]
-		public async Task<IActionResult> Post([FromBody]Input.Producto.Post data)
+		public async Task<IActionResult> Post([FromBody]Transfer.Producto.Post data)
 		{
 			Producto item;
 			try
@@ -138,7 +138,7 @@ namespace Fox.WebService.Controllers
 
 		[Authorize(Roles = "Administrador")]
 		[HttpPut("{id}")]
-		public async Task<IActionResult> PutById([FromRoute]Int32 id, [FromBody]Input.Producto.PutById data)
+		public async Task<IActionResult> PutById([FromRoute]Int32 id, [FromBody]Transfer.Producto.PutById data)
 		{
 			try
 			{

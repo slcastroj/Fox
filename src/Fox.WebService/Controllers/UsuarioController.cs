@@ -5,11 +5,10 @@ using System.Threading.Tasks;
 using Fox.DataAccess;
 using Fox.DataAccess.Models;
 using Fox.DataAccess.Repositories;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-using Input = Fox.WebService.Models.Transfer.Input;
+using Transfer = Fox.WebService.Models.Transfer;
 
 namespace Fox.Controllers
 {
@@ -26,7 +25,7 @@ namespace Fox.Controllers
 		}
 
 		[HttpPost("autenticacion")]
-		public async Task<IActionResult> Autenticacion([FromBody]Input.Usuario.Autenticacion data)
+		public async Task<IActionResult> Autenticacion([FromBody]Transfer.Usuario.Autenticacion data)
 		{
 			try
 			{
@@ -45,7 +44,7 @@ namespace Fox.Controllers
 
 		[Authorize(Roles = "Farmaceutico, Administrador")]
 		[HttpGet]
-		public async Task<IActionResult> Get([FromBody]Input.Usuario.Get data)
+		public async Task<IActionResult> Get([FromBody]Transfer.Usuario.Get data)
 		{
 			try
 			{
@@ -76,7 +75,7 @@ namespace Fox.Controllers
 
 		[Authorize(Roles = "Farmaceutico, Administrador")]
 		[HttpPost]
-		public async Task<IActionResult> Post([FromBody]Input.Usuario.Post data)
+		public async Task<IActionResult> Post([FromBody]Transfer.Usuario.Post data)
 		{
 			Usuario user;
 			try
@@ -143,7 +142,7 @@ namespace Fox.Controllers
 
 		[Authorize]
 		[HttpPatch("{rut}")]
-		public async Task<IActionResult> PatchByRut([FromRoute]String rut, [FromBody]Input.Usuario.PatchByRut data)
+		public async Task<IActionResult> PatchByRut([FromRoute]String rut, [FromBody]Transfer.Usuario.PatchByRut data)
 		{
 			try
 			{
@@ -174,7 +173,7 @@ namespace Fox.Controllers
 
 		[Authorize(Roles = "Administrador")]
 		[HttpPut("{rut}")]
-		public async Task<IActionResult> PutByRut([FromRoute]String rut, [FromBody]Input.Usuario.PutByRut data)
+		public async Task<IActionResult> PutByRut([FromRoute]String rut, [FromBody]Transfer.Usuario.PutByRut data)
 		{
 			try
 			{

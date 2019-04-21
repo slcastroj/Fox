@@ -5,10 +5,11 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Fox.DataAccess.Models;
 using Fox.DataAccess.Repositories;
+using Fox.WebService.Models.Transfer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-using Input = Fox.WebService.Models.Transfer.Input;
+using Transfer = Fox.WebService.Models.Transfer;
 
 namespace Fox.WebService.Controllers
 {
@@ -26,7 +27,7 @@ namespace Fox.WebService.Controllers
 
 		[Authorize(Roles = "Farmaceutico, Administrador")]
 		[HttpGet]
-		public async Task<IActionResult> Get([FromBody]Input.OrdenCompra.Get data)
+		public async Task<IActionResult> Get([FromBody]Transfer.OrdenCompra.Get data)
 		{
 			try
 			{
@@ -61,7 +62,7 @@ namespace Fox.WebService.Controllers
 
 		[Authorize]
 		[HttpPost]
-		public async Task<IActionResult> Post([FromBody]Input.OrdenCompra.Post data)
+		public async Task<IActionResult> Post([FromBody]Transfer.OrdenCompra.Post data)
 		{
 			OrdenCompra item;
 			try
@@ -130,7 +131,7 @@ namespace Fox.WebService.Controllers
 
 		[Authorize]
 		[HttpPatch("{id}")]
-		public async Task<IActionResult> PatchById([FromRoute]Int32 id, [FromBody]Input.OrdenCompra.PatchById data)
+		public async Task<IActionResult> PatchById([FromRoute]Int32 id, [FromBody]Transfer.OrdenCompra.PatchById data)
 		{
 			try
 			{
@@ -165,7 +166,7 @@ namespace Fox.WebService.Controllers
 
 		[Authorize(Roles = "Farmaceutico, Administrador")]
 		[HttpPut("{id}")]
-		public async Task<IActionResult> PutById([FromRoute]Int32 id, [FromBody]Input.OrdenCompra.PutById data)
+		public async Task<IActionResult> PutById([FromRoute]Int32 id, [FromBody]Transfer.OrdenCompra.PutById data)
 		{
 			try
 			{
