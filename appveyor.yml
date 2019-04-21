@@ -5,7 +5,7 @@ branches:
     - attribute-validation
 
 init:
-    - cmd: git config --global.core.autocrlf true
+    - cmd: git config --global core.autocrlf true
 
 before_build:
     - cmd: dotnet --version
