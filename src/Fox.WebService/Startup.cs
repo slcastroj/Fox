@@ -60,6 +60,9 @@ namespace Fox
 			services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 			services.AddScoped<IProductoRepository, ProductoRepository>();
 			services.AddScoped<IOrdenCompraRepository, OrdenCompraRepository>();
+			services.AddScoped<IEstadoCompraRepository, EstadoCompraRepository>();
+			services.AddScoped<ILaboratorioRepository, LaboratorioRepository>();
+			services.AddScoped<ITipoProductoRepository, TipoProductoRepository>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
