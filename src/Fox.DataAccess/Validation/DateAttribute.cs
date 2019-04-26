@@ -10,7 +10,9 @@ namespace Fox.DataAccess.Validation
 		protected override ValidationResult IsValid(Object value, ValidationContext ctx)
 		{
 			var date = (String)value;
-			if(!DateTime.TryParse(date, out _)) { return new ValidationResult(ErrorMessage); }
+			if (date == null) { return ValidationResult.Success; }
+
+			if (!DateTime.TryParse(date, out _)) { return new ValidationResult(ErrorMessage); }
 
 			return ValidationResult.Success;
 		}
