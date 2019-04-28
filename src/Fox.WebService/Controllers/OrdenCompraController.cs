@@ -27,7 +27,7 @@ namespace Fox.WebService.Controllers
 
 		[Authorize(Roles = "Farmaceutico, Administrador")]
 		[HttpGet]
-		public async Task<IActionResult> Get([FromBody]Transfer.OrdenCompra.Get data)
+		public async Task<IActionResult> Get([FromQuery]Transfer.OrdenCompra.Get data)
 		{
 			try
 			{

@@ -14,6 +14,7 @@ namespace Fox.WebService.Controllers
 {
 	[ApiController]
 	[Route("api/v1/producto")]
+	[Consumes("application/json", "text/plain")]
 	[Produces("application/json")]
 	public class ProductoController : ControllerBase
 	{
@@ -25,7 +26,7 @@ namespace Fox.WebService.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> Get([FromBody]Transfer.Producto.Get data)
+		public async Task<IActionResult> Get([FromQuery]Transfer.Producto.Get data)
 		{
 			try
 			{
@@ -37,7 +38,7 @@ namespace Fox.WebService.Controllers
 				if(data.TieneStock != null) { products = products.Where(x => x.Stock > 0); }
 				if(data.Laboratorio != null) { products = products.Where(x => x.Laboratorio == data.Laboratorio); }
 				if(data.Tipo != null) { products = products.Where(x => x.Tipo == data.Tipo); }
-				if(data.Nombre != null) { products = products.Where(x => Regex.IsMatch(x.Nombre, data.Nombre)); }
+				if(data.Nombre != null) { products = products.Where(x => Regex.IsMatch(x.Nombre.ToUpper(), data.Nombre.ToUpper())); }
 				if(data.Cantidad != null) { products = products.Take(data.Cantidad.Value); }
 
 				return Ok(products.Select(x => new

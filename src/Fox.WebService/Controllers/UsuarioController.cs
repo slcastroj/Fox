@@ -44,7 +44,7 @@ namespace Fox.Controllers
 
 		[Authorize(Roles = "Farmaceutico, Administrador")]
 		[HttpGet]
-		public async Task<IActionResult> Get([FromBody]Transfer.Usuario.Get data)
+		public async Task<IActionResult> Get([FromQuery]Transfer.Usuario.Get data)
 		{
 			try
 			{

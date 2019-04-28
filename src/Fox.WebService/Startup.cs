@@ -73,6 +73,7 @@ namespace Fox
 				app.UseDeveloperExceptionPage();
 			}
 
+			app.UseCors(c => c.AllowAnyOrigin());
 			app.UseAuthentication();
 			app.UseMvc();
 		}

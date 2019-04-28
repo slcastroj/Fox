@@ -47,7 +47,7 @@ POST solo farmacéutico y administrador
 
 ##### Solicitud
 
-	GET { roles?, cantidad? }
+	GET ?{ roles?, cantidad? }
 	POST { rut, password, email, fecha_nacimiento, roles }
 
 ##### Respuesta
@@ -83,7 +83,7 @@ POST solo administrador
 
 ##### Solicitud
 
-	GET { cantidad?, indice?, tipo?, nombre?, tiene_stock?, laboratorio? }
+	GET ?{ cantidad?, indice?, tipo?, nombre?, tiene_stock?, laboratorio? }
 	POST { nombre, descripción, necesita_receta, maximo_semanal, peso_gr, precio_unidad, laboratorio, stock?, tipo } 
 
 ##### Respuesta
@@ -116,7 +116,7 @@ DELETE solo administrador
 
 ##### Solicitud
 
-	GET { tipo?, usuario?, esta_visto? }
+	GET ?{ tipo?, usuario?, esta_visto? }
 	POST { asunto, mensaje, tipo, link?, usuario }
 	DELETE { usuario }
 
@@ -150,7 +150,7 @@ GET solo administrador o farmacéutico
 
 ##### Solicitud
 
-	GET { usuario?, asignado?, producto?, estado? }
+	GET ?{ usuario?, asignado?, producto?, estado? }
 	POST { usuario, cantidad, producto}
 
 ##### Respuesta
@@ -187,7 +187,7 @@ DELETE solo administrador
 
 ##### Solicitud
 
-	GET { asignado?, consultante?, estado? }
+	GET ?{ asignado?, consultante?, estado? }
 	POST { consultante }
 	DELETE { consultante }
 
@@ -219,7 +219,7 @@ GET solo administrador
 
 ##### Solicitud
 
-	GET { usuario?, producto? }
+	GET ?{ usuario?, producto? }
 	POST { usuario, producto}
 	DELETE { producto }
 

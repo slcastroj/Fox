@@ -12,14 +12,18 @@ namespace Fox
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static void Main(String[] args)
         {
             BuildWebHost(args).Run();
         }
+		public static IWebHost BuildWebHost(String[] args)
 
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .Build();
+		{
+			return WebHost.CreateDefaultBuilder(args)
+				.UseStartup<Startup>()
+				.UseKestrel()
+				.UseUrls("http://*:80/")
+				.Build();
+		}
     }
 }
