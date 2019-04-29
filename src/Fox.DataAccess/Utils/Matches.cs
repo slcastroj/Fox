@@ -8,7 +8,7 @@ namespace Fox.DataAccess.Utils
 	{
 		public const String Rut = @"^[0-9]{7,8}[0-9k]$";
 		public const String Email = @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,4})+)$";
-		public const String Password = @"^[-0-9a-zA-Z./]{8,}$";
-		public const String Nombre = @"^[-0-9a-zA-Z./\s()\[\]ªº]{4,}$";
+		public const String Password = @"^[-\w./]{8,}$";
+		public const String Nombre = @"^[-\p{L}./\s()\[\]ªº]{4,}$";
 	}
 }

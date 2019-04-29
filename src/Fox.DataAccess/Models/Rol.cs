@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 namespace Fox.DataAccess.Models
 {
-    public partial class EstadoCompra
+    public partial class Rol
     {
-        public EstadoCompra()
+        public Rol()
         {
-            Compra = new HashSet<Compra>();
+            Usuario = new HashSet<Usuario>();
         }
 
         public long Id { get; set; }
         public string Nombre { get; set; }
 
-        public virtual ICollection<Compra> Compra { get; set; }
+        public virtual ICollection<Usuario> Usuario { get; set; }
     }
 }

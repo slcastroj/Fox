@@ -7,6 +7,9 @@ namespace Fox.WebService.Models.Transfer.Usuario
 {
 	public class PatchByRut
 	{
+		[RegularExpression(Matches.Nombre, ErrorMessage = "Formato de nombre inválido")]
+		public String Nombre { get; set; }
+
 		[RegularExpression(Matches.Password, ErrorMessage = "Contraseña con formato inválido")]
 		public String Password { get; set; }
 

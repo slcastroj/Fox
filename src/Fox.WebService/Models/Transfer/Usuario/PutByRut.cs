@@ -11,6 +11,10 @@ namespace Fox.WebService.Models.Transfer.Usuario
 
 	public class PutByRut
 	{
+		[Required(ErrorMessage = "Se requiere campo nombre")]
+		[RegularExpression(Matches.Nombre, ErrorMessage = "Formato de nombre inválido")]
+		public String Nombre { get; set; }
+
 		[Required(ErrorMessage = "Se requiere campo contraseña")]
 		[RegularExpression(Matches.Password, ErrorMessage = "Contraseña con formato inválido")]
 		public String Password { get; set; }
@@ -23,8 +27,8 @@ namespace Fox.WebService.Models.Transfer.Usuario
 		[Date(ErrorMessage = "Fecha con formato inválido")]
 		public String FechaNacimiento { get; set; }
 
-		[Required(ErrorMessage = "Se requiere campo roles")]
-		[InSet("Usuario", "Farmaceutico", "Administrador")]
-		public String Roles { get; set; }
+		[Required(ErrorMessage = "Se requiere campo rol")]
+		[Range(0, UInt16.MaxValue, ErrorMessage = "Cantidad fuera del rango de valores")]
+		public Int32? Rol { get; set; }
 	}
 }

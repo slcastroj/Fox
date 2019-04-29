@@ -59,7 +59,8 @@ namespace Fox
 			services.AddDbContext<DeadlockContext>();
 			services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 			services.AddScoped<IProductoRepository, ProductoRepository>();
-			services.AddScoped<IOrdenCompraRepository, OrdenCompraRepository>();
+			services.AddScoped<IReservaRepository, ReservaRepository>();
+			services.AddScoped<ICompraRepository, CompraRepository>();
 			services.AddScoped<IEstadoCompraRepository, EstadoCompraRepository>();
 			services.AddScoped<ILaboratorioRepository, LaboratorioRepository>();
 			services.AddScoped<ITipoProductoRepository, TipoProductoRepository>();
