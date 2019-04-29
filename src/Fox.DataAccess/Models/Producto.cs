@@ -7,8 +7,7 @@ namespace Fox.DataAccess.Models
     {
         public Producto()
         {
-            OrdenCompra = new HashSet<OrdenCompra>();
-            SolicitudReserva = new HashSet<SolicitudReserva>();
+            ReservaStock = new HashSet<ReservaStock>();
         }
 
         public long Id { get; set; }
@@ -24,7 +23,6 @@ namespace Fox.DataAccess.Models
 
         public virtual Laboratorio LaboratorioNavigation { get; set; }
         public virtual TipoProducto TipoNavigation { get; set; }
-        public virtual ICollection<OrdenCompra> OrdenCompra { get; set; }
-        public virtual ICollection<SolicitudReserva> SolicitudReserva { get; set; }
+        public virtual ICollection<ReservaStock> ReservaStock { get; set; }
     }
 }

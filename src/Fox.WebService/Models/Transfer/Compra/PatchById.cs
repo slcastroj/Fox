@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Fox.WebService.Models.Transfer.OrdenCompra
+namespace Fox.WebService.Models.Transfer.Compra
 {
 	public class PatchById
 	{

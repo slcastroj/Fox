@@ -52,15 +52,16 @@ namespace Fox.Controllers
 				if(!result.IsValid) { return BadRequest(result.Fault); }
 
 				IEnumerable<Usuario> users = result.Result;
-				if(data.Roles != null) { users = users.Where(x => x.Roles == data.Roles); }
+				if(data.Rol != null) { users = users.Where(x => x.Rol == data.Rol); }
 				if(data.Cantidad != null) { users = users.Take(data.Cantidad.Value); }
 
 				return Ok(users.Select(x => new
 				{
 					rut = x.Rut,
+					nombre = x.Nombre,
 					email = x.Email,
 					fecha_nacimiento = x.FechaNacimiento,
-					roles = x.Roles
+					rol = x.Rol
 				}));
 			}
 			catch(ArgumentNullException)
@@ -84,9 +85,10 @@ namespace Fox.Controllers
 				{
 					Rut = data.Rut,
 					Password = data.Password,
+					Nombre = data.Nombre,
 					Email = data.Email,
 					FechaNacimiento = data.FechaNacimiento,
-					Roles = data.Roles
+					Rol = data.Rol.Value
 				};
 
 				AccessResult<Usuario> result = await Usuarios.Post(user);
@@ -96,8 +98,9 @@ namespace Fox.Controllers
 				return CreatedAtAction(nameof(GetByRut), new { rut = user.Rut }, new
 				{
 					rut = user.Rut,
+					nombre = user.Nombre,
 					email = user.Email,
-					roles = user.Roles,
+					rol = user.Rol,
 					creacion = DateTime.UtcNow.ToString()
 				});
 			}
@@ -126,6 +129,7 @@ namespace Fox.Controllers
 					: (IActionResult)Ok(new
 					{
 						rut = user.Rut,
+						nombre = user.Nombre,
 						email = user.Email,
 						fecha_nacimiento = user.FechaNacimiento
 					});
@@ -148,7 +152,7 @@ namespace Fox.Controllers
 			{
 				if(User.IsInRole("Usuario") && rut != User.Identity.Name) { return Forbid(); }
 
-				AccessResult<Usuario> result = await Usuarios.Patch(rut, data.Password, data.Email, data.FechaNacimiento);
+				AccessResult<Usuario> result = await Usuarios.Patch(rut, data.Nombre, data.Password, data.Email, data.FechaNacimiento);
 				if(!result.IsValid) { return BadRequest(result.Fault); }
 
 				Usuario user = result.Result;
@@ -156,6 +160,7 @@ namespace Fox.Controllers
 				return Ok(new
 				{
 					rut = user.Rut,
+					nombre = user.Nombre,
 					email = user.Email,
 					fecha_nacimiento = user.FechaNacimiento,
 					modificacion = DateTime.UtcNow.ToString()
@@ -182,7 +187,7 @@ namespace Fox.Controllers
 					Rut = rut,
 					Email = data.Email,
 					FechaNacimiento = data.FechaNacimiento,
-					Roles = data.Roles,
+					Rol = data.Rol.Value,
 					Password = data.Password
 				});
 				if(!result.IsValid) { return BadRequest(result.Fault); }
@@ -191,9 +196,10 @@ namespace Fox.Controllers
 				return Ok(new
 				{
 					rut = user.Rut,
+					nombre = user.Nombre,
 					email = user.Email,
 					fecha_nacimiento = user.FechaNacimiento,
-					roles = user.Roles,
+					rol = user.Rol,
 					modificacion = DateTime.UtcNow.ToString()
 				});
 			}
@@ -220,6 +226,7 @@ namespace Fox.Controllers
 				return Ok(new
 				{
 					rut = user.Rut,
+					nombre = user.Nombre,
 					email = user.Email,
 					fecha = DateTime.UtcNow.ToString()
 				});

@@ -24,7 +24,7 @@ namespace Fox.DataAccess.Utils
 					Subject = new ClaimsIdentity(new[]
 					{
 						new Claim(ClaimTypes.Name, user.Rut.ToString()),
-						new Claim(ClaimTypes.Role, user.Roles.ToString())
+						new Claim(ClaimTypes.Role, user.RolNavigation.Nombre)
 					}),
 					IssuedAt = date,
 					Expires = date.AddSeconds(expiration),

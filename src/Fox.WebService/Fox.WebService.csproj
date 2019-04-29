@@ -6,10 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Program.cs~RF22ff018d.TMP" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
@@ -26,12 +22,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Fox.DataAccess\Fox.DataAccess.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Deadlock.db">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

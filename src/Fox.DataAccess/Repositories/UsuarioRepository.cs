@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Fox.DataAccess.Models;
 using Fox.DataAccess.Utils;
@@ -14,7 +15,7 @@ namespace Fox.DataAccess.Repositories
 		Task<AccessResult<IEnumerable<Usuario>>> GetAll();
 		Task<AccessResult<Usuario>> Get(String rut);
 		Task<AccessResult<Usuario>> Post(Usuario user);
-		Task<AccessResult<Usuario>> Patch(String rut, String password, String email, String fechaNacimiento);
+		Task<AccessResult<Usuario>> Patch(String rut, String nombre, String password, String email, String fechaNacimiento);
 		Task<AccessResult<Usuario>> Put(Usuario user);
 		Task<AccessResult<Usuario>> Delete(String rut);
 	}
@@ -37,9 +38,10 @@ namespace Fox.DataAccess.Repositories
 			try
 			{
 				Usuario user = await Get(rut);
+				var hash = Hashing.ComputeSha256(pwd);
 
-				if(user == null) { return new AccessFault("Usuario no existente"); }
-				if(user.Password != Hashing.ComputeSha256(pwd)) { return new AccessFault("Credenciales inválidas"); }
+				if (user == null) { return new AccessFault("Usuario no existente"); }
+				if(user.Password != hash) { return new AccessFault("Credenciales inválidas"); }
 
 				BearerUser token = Token.GetFor(Settings.Secret, user, ExpirationSpan);
 				if(token == null) { return new AccessFault("No se pudo crear token de acceso"); }
@@ -79,13 +81,14 @@ namespace Fox.DataAccess.Repositories
 			catch { return new AccessFault("No se pudo publicar la información de usuario"); }
 		}
 
-		public async Task<AccessResult<Usuario>> Patch(String rut, String password, String email, String fechaNacimiento)
+		public async Task<AccessResult<Usuario>> Patch(String rut, String nombre, String password, String email, String fechaNacimiento)
 		{
 			try
 			{
 				Usuario user = await Get(rut);
 				if(user == null) { return new AccessFault("Usuario no existente"); }
 
+				if(nombre != null) { user.Nombre = nombre; }
 				if(password != null) { user.Password = password; }
 				if(email != null) { user.Email = email; }
 				if(fechaNacimiento != null) { user.FechaNacimiento = fechaNacimiento; }
@@ -105,11 +108,12 @@ namespace Fox.DataAccess.Repositories
 			{
 				EnsureIntegrity(user);
 
-				Usuario apt = await Users.FindAsync(user.Rut);
+				Usuario apt = await Get(user.Rut);
 				apt.Email = user.Email;
+				apt.Nombre = user.Nombre;
 				apt.FechaNacimiento = user.FechaNacimiento;
 				apt.Password = user.Password;
-				apt.Roles = user.Roles;
+				apt.Rol = user.Rol;
 
 				await Context.SaveChangesAsync();
 				return user;
@@ -135,7 +139,7 @@ namespace Fox.DataAccess.Repositories
 		{
 			user.Rut = user.Rut.ToLower();
 			user.Email = user.Email.ToLower();
-			user.Roles = user.Roles ?? "Usuario";
+			user.Rol = Context.Rol.Find(user.Rol)?.Id ?? Context.Rol.FirstOrDefault().Id;
 			user.Password = Hashing.ComputeSha256(user.Password);
 			user.FechaNacimiento = DateTime.Parse(user.FechaNacimiento).ToString("yyyy-MM-dd");
 

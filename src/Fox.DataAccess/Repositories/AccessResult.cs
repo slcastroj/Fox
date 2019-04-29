@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Fox.DataAccess.Repositories
 {
-	public class AccessResult<T> where T : class
+	public class AccessResult<T>
 	{
 		public T Result { get; }
 		public AccessFault Fault { get; }
