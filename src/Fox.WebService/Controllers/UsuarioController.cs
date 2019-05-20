@@ -131,7 +131,8 @@ namespace Fox.Controllers
 						rut = user.Rut,
 						nombre = user.Nombre,
 						email = user.Email,
-						fecha_nacimiento = user.FechaNacimiento
+						fecha_nacimiento = user.FechaNacimiento,
+						rol = user.Rol
 					});
 			}
 			catch(ArgumentNullException)

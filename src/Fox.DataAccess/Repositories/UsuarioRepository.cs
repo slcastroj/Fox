@@ -88,12 +88,10 @@ namespace Fox.DataAccess.Repositories
 				Usuario user = await Get(rut);
 				if(user == null) { return new AccessFault("Usuario no existente"); }
 
-				if(nombre != null) { user.Nombre = nombre; }
-				if(password != null) { user.Password = password; }
-				if(email != null) { user.Email = email; }
-				if(fechaNacimiento != null) { user.FechaNacimiento = fechaNacimiento; }
-
-				EnsureIntegrity(user);
+				if(!String.IsNullOrEmpty(nombre)) { user.Nombre = nombre; }
+				if(!String.IsNullOrEmpty(password)) { user.Password = password; }
+				if(!String.IsNullOrEmpty(email)) { user.Email = email; }
+				if(!String.IsNullOrEmpty(fechaNacimiento)) { user.FechaNacimiento = fechaNacimiento; }
 
 				await Context.SaveChangesAsync();
 

@@ -46,6 +46,7 @@ namespace Fox.WebService.Controllers
 					id = x.Id,
 					nombre = x.Nombre,
 					necesita_receta = x.NecesitaReceta == "1",
+					descripcion = x.Descripcion,
 					maximo_semanal = x.MaximoSemanal,
 					peso_gr = x.PesoGr,
 					precio_unidad = x.PrecioUnidad,
@@ -118,6 +119,7 @@ namespace Fox.WebService.Controllers
 				{
 					id = item.Id,
 					nombre = item.Nombre,
+					descripcion = item.Descripcion,
 					necesita_receta = item.NecesitaReceta == "1",
 					maximo_semanal = item.MaximoSemanal,
 					peso_gr = item.PesoGr,
